@@ -35,6 +35,7 @@ endif()
 
 add_subdirectory(external)
 
+
 # Find the QtWidgets library
 find_package(Qt6 QUIET
   COMPONENTS
