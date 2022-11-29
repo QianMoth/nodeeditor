@@ -31,6 +31,7 @@ GraphicsView(QWidget *parent)
   : QGraphicsView(parent)
   , _clearSelectionAction(Q_NULLPTR)
   , _deleteSelectionAction(Q_NULLPTR)
+  , _scaleRange(0.3 , 2)
 {
   setDragMode(QGraphicsView::ScrollHandDrag);
   setRenderHint(QPainter::Antialiasing);
@@ -182,15 +183,26 @@ wheelEvent(QWheelEvent *event)
 
 void
 GraphicsView::
+setScaleRange(float min, float max)
+{
+    _scaleRange.setX(min < 0 ? 0 : min);
+    _scaleRange.setY(max < 0 ? 0 : max);
+}
+
+void
+GraphicsView::
 scaleUp()
 {
   double const step   = 1.2;
   double const factor = std::pow(step, 1.0);
 
-  QTransform t = transform();
+  if(_scaleRange.y() > 0)
+  {
+      QTransform t = transform();
 
-  if (t.m11() > 2.0)
-    return;
+      if (t.m11() > _scaleRange.y())
+        return;
+  }
 
   scale(factor, factor);
 }
@@ -202,6 +214,14 @@ scaleDown()
 {
   double const step   = 1.2;
   double const factor = std::pow(step, -1.0);
+
+  if(_scaleRange.x() > 0)
+  {
+      QTransform t = transform();
+
+      if (t.m11() < _scaleRange.x())
+          return;
+  }
 
   scale(factor, factor);
 }
