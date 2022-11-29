@@ -185,8 +185,16 @@ void
 GraphicsView::
 setScaleRange(float min, float max)
 {
-    _scaleRange.setX(min < 0 ? 0 : min);
-    _scaleRange.setY(max < 0 ? 0 : max);
+    if(min <= max)
+    {
+        _scaleRange.setX(min < 0 ? 0 : min);
+        _scaleRange.setY(max < 0 ? 0 : max);
+    }
+    else
+    {
+        _scaleRange.setX(max < 0 ? 0 : max);
+        _scaleRange.setY(min < 0 ? 0 : min);
+    }
 }
 
 void
@@ -199,9 +207,12 @@ scaleUp()
   if(_scaleRange.y() > 0)
   {
       QTransform t = transform();
-
-      if (t.m11() > _scaleRange.y())
-        return;
+      t.scale(factor, factor);
+      if (t.m11() >= _scaleRange.y())
+      {
+//          setupScale(t.m11());
+          return;
+      }
   }
 
   scale(factor, factor);
@@ -218,12 +229,37 @@ scaleDown()
   if(_scaleRange.x() > 0)
   {
       QTransform t = transform();
-
-      if (t.m11() < _scaleRange.x())
+      t.scale(factor, factor);
+      if (t.m11() <= _scaleRange.x())
+      {
+//          setupScale(t.m11());
           return;
+      }
   }
 
   scale(factor, factor);
+}
+
+void GraphicsView::setupScale(double scale)
+{
+    if (scale <= 0)
+        return;
+
+    if (scale < _scaleRange.x())
+    {
+        scale = _scaleRange.x();
+    }
+    else if (scale > _scaleRange.y())
+    {
+        scale = _scaleRange.y();
+    }else
+    {
+        return;
+    }
+
+    QTransform matrix;
+    matrix.scale(scale, scale);
+    this->setTransform(matrix, false);
 }
 
 

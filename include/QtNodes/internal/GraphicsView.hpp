@@ -45,6 +45,9 @@ public Q_SLOTS:
   scaleDown();
 
   void
+  setupScale(double scale);
+
+  void
   onDeleteSelectedObjects();
 
 protected:
