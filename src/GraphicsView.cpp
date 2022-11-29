@@ -183,7 +183,7 @@ wheelEvent(QWheelEvent *event)
 
 void
 GraphicsView::
-setScaleRange(float min, float max)
+setScaleRange(double min, double max)
 {
     if(min <= max)
     {
@@ -204,7 +204,7 @@ scaleUp()
   double const step   = 1.2;
   double const factor = std::pow(step, 1.0);
 
-  if(_scaleRange.y() > 0)
+  if (_scaleRange.y() > 0)
   {
       QTransform t = transform();
       t.scale(factor, factor);
@@ -226,7 +226,7 @@ scaleDown()
   double const step   = 1.2;
   double const factor = std::pow(step, -1.0);
 
-  if(_scaleRange.x() > 0)
+  if (_scaleRange.x() > 0)
   {
       QTransform t = transform();
       t.scale(factor, factor);
@@ -252,7 +252,8 @@ void GraphicsView::setupScale(double scale)
     else if (scale > _scaleRange.y())
     {
         scale = _scaleRange.y();
-    }else
+    }
+    else
     {
         return;
     }

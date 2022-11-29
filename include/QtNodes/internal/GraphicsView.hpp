@@ -35,7 +35,7 @@ public:
 
   /// \brief max=0/min=0 indicates infinite zoom in/out
   void
-  setScaleRange(float min = 0,float max = 0);
+  setScaleRange(double min = 0, double max = 0);
 
 public Q_SLOTS:
   void
