@@ -579,9 +579,9 @@ void DataFlowGraphModel::initModelFormId(std::unique_ptr<NodeDelegateModel> mode
                 _models[nodeId]->ports->setPortConnectionPolicy(portType, portIndex, policy);
             });
 
-    _models[nodeId] = std::move(std::make_unique<NodeModel>());
+    _models[nodeId] = std::make_unique<NodeModel>();
     _models[nodeId]->node = std::move(model);
-    _models[nodeId]->ports = std::move(std::make_unique<NodePorts>());
+    _models[nodeId]->ports = std::make_unique<NodePorts>();
 }
 
 void DataFlowGraphModel::onOutPortDataUpdated(NodeId const nodeId, PortIndex const portIndex)
